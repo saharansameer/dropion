@@ -1,0 +1,19 @@
+# Ignore node_modules and .next
+node_modules/
+.next/
+
+# Ignore builds and migration
+dist/
+drizzle/
+
+# Ignore environment files
+.env*
+    
+# Ignore package files
+package.json
+package-lock.json
+
+# Ignore config files
+*.config.ts
+*.config.js
+*.config.mjs
