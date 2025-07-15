@@ -97,7 +97,8 @@ export function SignupForm() {
       if (result.status === "complete") {
         toast.success("Verification Success");
         await setActive({ session: result.createdSessionId });
-        router.push("/my-files");
+        router.push("/home");
+        router.refresh()
       }
     } catch (error: any) {
       console.error("OTP Error:", error);
