@@ -58,7 +58,7 @@ export function SigninForm() {
           message: "Failed to sign-in",
         });
       }
-    } catch (error: any) {
+    } catch (error: AnyError) {
       console.error("Signin Error:", error);
       form.setError("root", {
         type: "validate",

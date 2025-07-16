@@ -64,7 +64,7 @@ export function SignupForm() {
       });
 
       setEnterOTP(true);
-    } catch (error: any) {
+    } catch (error: AnyError) {
       console.error("Signup Error:", error);
       form.setError("root", {
         type: "validate",
@@ -100,7 +100,7 @@ export function SignupForm() {
         router.push("/home");
         router.refresh()
       }
-    } catch (error: any) {
+    } catch (error: AnyError) {
       console.error("OTP Error:", error);
       otpForm.setError("otp", {
         type: "validate",
