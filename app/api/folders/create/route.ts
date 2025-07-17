@@ -6,6 +6,7 @@ import { withAuth } from "@/lib/api/wrapper";
 import { trimAndClean } from "@/lib/utils";
 import { BaseResponse, FilesResponse } from "@/types";
 import { v4 as uuidv4 } from "uuid";
+import { deleteByPrefix } from "@/lib/redis/redis-utils";
 
 export const POST = withAuth(async (request: NextRequest, { userId }) => {
   try {
@@ -59,6 +60,9 @@ export const POST = withAuth(async (request: NextRequest, { userId }) => {
 
     // Save Folder Data in Database
     const [newFolder] = await db.insert(files).values(folderData).returning();
+
+    // Clear Cache (if exist)
+    await deleteByPrefix(userId)
 
     // Final Response
     return NextResponse.json<FilesResponse>(
