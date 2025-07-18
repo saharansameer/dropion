@@ -22,3 +22,26 @@ export function getSortOrder(table: FilesTable, option: SortOption) {
       return desc(table.createdAt);
   }
 }
+
+export const allowedFilesTypes = [
+  "video/mp4",
+  "video/quicktime",
+  "video/webm",
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "application/pdf",
+  "text/plain",
+] as const;
+
+export function getFolderName(fileType: string) {
+  if (fileType.startsWith("video")) {
+    return "videos";
+  }
+
+  if (fileType.startsWith("image")) {
+    return "images";
+  }
+
+  return "documents";
+}
