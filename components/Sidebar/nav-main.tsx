@@ -8,15 +8,9 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { type LucideIcon } from "lucide-react";
-import {
-  Home,
-  FolderClosed,
-  Trash,
-  Star,
-  FileUp,
-  FolderPlus,
-} from "lucide-react";
+import { Home, FolderClosed, Trash, Star, FolderPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { FileUpload } from "@/components/Files/FileUpload";
 
 const navMain: {
   title: string;
@@ -26,7 +20,7 @@ const navMain: {
   {
     title: "Home",
     icon: Home,
-    href: "/drop",
+    href: "/home",
   },
   {
     title: "My Files",
@@ -53,10 +47,7 @@ export function NavMain() {
     <SidebarGroup>
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton tooltip={"Upload"}>
-            <FileUp style={iconStyle} />
-            Upload
-          </SidebarMenuButton>
+          <FileUpload variant="button" />
         </SidebarMenuItem>
         <SidebarMenuItem>
           <SidebarMenuButton tooltip={"New Folder"}>

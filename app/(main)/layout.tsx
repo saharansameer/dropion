@@ -4,15 +4,8 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { AppSidebar } from "@/components/Sidebar/AppSidebar";
+import { AppBreadcrumb } from "@/components/Layout/AppBreadcrumb";
 import { Separator } from "@/components/ui/separator";
 
 export default function Layout({ children }: ReactChildren) {
@@ -27,22 +20,10 @@ export default function Layout({ children }: ReactChildren) {
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            <AppBreadcrumb />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-2 pt-0">
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min px-2 py-1">
             {children}
           </div>
