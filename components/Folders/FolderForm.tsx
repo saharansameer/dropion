@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { folderSchema, FolderSchemaInputs } from "@/zod/schema/folderSchema";
@@ -26,6 +26,7 @@ import { Input, Button } from "@/components/ui";
 import { LoaderSpin } from "@/components/server";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface FolderFormProps {
   mode: "post" | "patch";
@@ -34,8 +35,10 @@ interface FolderFormProps {
 }
 
 export function FolderForm({ mode, folderName, trigger }: FolderFormProps) {
+  const [sheetOpen, setSheetOpen] = useState<boolean>(false);
   const { folderId } = useParams();
   const isPostMode = mode === "post";
+  const router = useRouter();
 
   const form = useForm<FolderSchemaInputs>({
     resolver: zodResolver(folderSchema),
@@ -60,15 +63,18 @@ export function FolderForm({ mode, folderName, trigger }: FolderFormProps) {
       }
 
       toast.success(isPostMode ? "Folder Created" : "Folder Updated");
+      setSheetOpen(false);
+      router.refresh();
       form.reset();
     } catch {
       toast.error("Someting went wrong with Folder");
+      setSheetOpen(false);
       form.reset();
     }
   };
 
   return (
-    <Sheet>
+    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
       <SheetContent>
         <SheetHeader>

@@ -1,11 +1,8 @@
 import { asc, desc, eq } from "drizzle-orm";
-import { FilesTable } from "./schema";
+import { FilesTable } from "@/lib/db/schema";
 import { FilesType, SortOption } from "@/types";
 
-export function getFilterCondition(
-  table: FilesTable,
-  type?: FilesType
-) {
+export function getFilterCondition(table: FilesTable, type?: FilesType) {
   if (!type || type.trim() === "") return undefined;
 
   return eq(table.type, type);
