@@ -13,6 +13,7 @@ import Image from "next/image";
 import { type File } from "@/lib/db/schema";
 import { useRouter } from "next/navigation";
 import { useFileViewer } from "@/hooks/use-file-viewer";
+import { FileUpload } from "./FileUpload";
 
 function FilePreview({ file }: { file: File }) {
   const Icon = getFileIcon(file.type);
@@ -61,7 +62,14 @@ export function FileGrid({ files, isRoot = false }: FileGridProps) {
   };
 
   if (!files || files.length === 0) {
-    return <div>Empty</div>;
+    return (
+      <div className="w-full mx-auto flex justify-center py-10">
+        <div className="w-full max-w-4xl">
+          <h2 className="font-semibold mb-4 text-center">Folder is empty, Add files</h2>
+          <FileUpload variant="dropzone" />
+        </div>
+      </div>
+    );
   }
 
   return (
