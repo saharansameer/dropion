@@ -1,9 +1,10 @@
 import { asc, desc, eq } from "drizzle-orm";
 import { FilesTable } from "./schema";
-import { SortOption, FilterType } from "@/types";
+import { SortOption } from "@/types";
 
-export function getFilterCondition(table: FilesTable, type?: FilterType) {
-  if (!type || type === undefined) return undefined;
+export function getFilterCondition(table: FilesTable, type?: string) {
+  if (!type || type === undefined || type === "undefined" || type.trim() === "")
+    return undefined;
 
   return eq(table.type, type);
 }
@@ -45,3 +46,15 @@ export function getFolderName(fileType: string) {
 
   return "documents";
 }
+
+export const getUploadFileType = (type: string) => {
+  if (type.startsWith("image")) {
+    return "image";
+  }
+
+  if (type.startsWith("video")) {
+    return "video";
+  }
+
+  return "document";
+};

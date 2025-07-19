@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/wrapper";
 import { db } from "@/lib/db";
 import { files, NewFile } from "@/lib/db/schema";
-import { allowedFilesTypes, getFolderName } from "@/lib/db/db-utils";
+import {
+  allowedFilesTypes,
+  getFolderName,
+  getUploadFileType,
+} from "@/lib/db/db-utils";
 import { BaseResponse, FilesResponse, FilesType } from "@/types";
 import ImageKit from "imagekit";
 
@@ -55,7 +59,7 @@ export const POST = withAuth(async (request: NextRequest, { userId }) => {
       name: file.name || "untitled",
       path: imagekitResponse.filePath,
       size: file.size,
-      type: file.type,
+      type: getUploadFileType(file.type),
       fileUrl: imagekitResponse.url,
       thumbnailUrl: imagekitResponse.thumbnailUrl,
       owner: userId,

@@ -3,18 +3,21 @@ import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { eq, and, isNull } from "drizzle-orm";
 import { withAuth } from "@/lib/api/wrapper";
-import { BaseResponse, FilesResponse, FilesCache } from "@/types";
+import { BaseResponse, FilesResponse, FilesCache, SortOption } from "@/types";
 import redis from "@/lib/redis";
+import { getFilterCondition, getSortOrder } from "@/lib/db/db-utils";
 
 export const GET = withAuth(async (request: NextRequest, { userId }) => {
   try {
     const searchParams = request.nextUrl.searchParams;
     const parentId = searchParams.get("parentId");
-    const filter = searchParams.get("filter") || undefined;
+    const filter = searchParams.get("filter");
     const sort = searchParams.get("sort") || "date-latest";
 
     // Check cached storage
-    const redisKey = parentId ? `${userId}:${parentId}:${filter}:${sort}` : `${userId}:root:${filter}:${sort}`;
+    const redisKey = parentId
+      ? `${userId}:${parentId}:${filter}:${sort}`
+      : `${userId}:root:${filter}:${sort}`;
     const cache: FilesCache | null = await redis.get(redisKey);
     if (cache) {
       return NextResponse.json<FilesResponse>(
@@ -27,19 +30,25 @@ export const GET = withAuth(async (request: NextRequest, { userId }) => {
       );
     }
 
+    // Where Conditions
+    const conditions = parentId
+      ? [
+          eq(files.parentId, parentId),
+          eq(files.owner, userId),
+          ...(filter ? [getFilterCondition(files, filter)] : []),
+        ]
+      : [
+          eq(files.owner, userId),
+          isNull(files.parentId),
+          ...(filter ? [getFilterCondition(files, filter)] : []),
+        ];
+
     // Fetch Files from Database
-    let userFiles;
-    if (parentId) {
-      userFiles = await db
-        .select()
-        .from(files)
-        .where(and(eq(files.parentId, parentId), eq(files.owner, userId)));
-    } else {
-      userFiles = await db
-        .select()
-        .from(files)
-        .where(and(eq(files.owner, userId), isNull(files.parentId)));
-    }
+    const userFiles = await db
+      .select()
+      .from(files)
+      .where(and(...conditions))
+      .orderBy(getSortOrder(files, sort as SortOption));
 
     if (!userFiles) {
       return NextResponse.json<BaseResponse>(
