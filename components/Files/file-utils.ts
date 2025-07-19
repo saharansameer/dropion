@@ -5,26 +5,9 @@ import {
   Video as VideoIcon,
   FolderClosed,
 } from "lucide-react";
+import { FilesType } from "@/types";
 
-const getFileType = (type: string) => {
-  if (type.startsWith("image")) {
-    return "image";
-  }
-
-  if (type.startsWith("video")) {
-    return "video";
-  }
-
-  if (type.startsWith("folder")) {
-    return "folder";
-  }
-
-  return "document";
-};
-
-export const getFileIcon = (fileType: string) => {
-  const type = getFileType(fileType);
-
+export const getFileIcon = (type: FilesType) => {
   const icons = {
     image: ImageIcon,
     video: VideoIcon,
@@ -35,9 +18,7 @@ export const getFileIcon = (fileType: string) => {
   return icons[type];
 };
 
-export const getFileColor = (fileType: string) => {
-  const type = getFileType(fileType);
-
+export const getFileColor = (type: FilesType) => {
   const colors = {
     image: "text-green-600 bg-green-50 dark:bg-green-950/50",
     video: "text-blue-600 bg-blue-50 dark:bg-blue-950/50",

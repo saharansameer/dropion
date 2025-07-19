@@ -1,6 +1,6 @@
 import { BaseResponse } from "./server";
 import { NewFile, File } from "@/lib/db/schema";
-import { allowedFilesTypes } from "@/lib/db/db-utils";
+import { allowedMimeTypes } from "@/lib/db/db-utils";
 
 export interface FilesResponse extends BaseResponse {
   data: NewFile | File[];
@@ -8,8 +8,8 @@ export interface FilesResponse extends BaseResponse {
 
 export type FilesCache = File[];
 
-export type FilterType = "video" | "image" | "document" | "folder";
-
 export type SortOption = "date-latest" | "date-oldest" | "name-az" | "name-za";
 
-export type FilesType = (typeof allowedFilesTypes)[number];
+export type FilesType = "video" | "image" | "document" | "folder";
+
+export type MimeType = (typeof allowedMimeTypes)[number];

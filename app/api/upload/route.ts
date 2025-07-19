@@ -3,11 +3,11 @@ import { withAuth } from "@/lib/api/wrapper";
 import { db } from "@/lib/db";
 import { files, NewFile } from "@/lib/db/schema";
 import {
-  allowedFilesTypes,
+  allowedMimeTypes,
   getFolderName,
   getUploadFileType,
 } from "@/lib/db/db-utils";
-import { BaseResponse, FilesResponse, FilesType } from "@/types";
+import { BaseResponse, FilesResponse, MimeType } from "@/types";
 import ImageKit from "imagekit";
 
 const imagekit = new ImageKit({
@@ -34,7 +34,7 @@ export const POST = withAuth(async (request: NextRequest, { userId }) => {
     }
 
     // Check File Type
-    if (!allowedFilesTypes.includes(file.type as FilesType)) {
+    if (!allowedMimeTypes.includes(file.type as MimeType)) {
       return NextResponse.json<BaseResponse>(
         { success: false, message: "Unsupported File Type" },
         { status: 400 }
@@ -60,6 +60,7 @@ export const POST = withAuth(async (request: NextRequest, { userId }) => {
       path: imagekitResponse.filePath,
       size: file.size,
       type: getUploadFileType(file.type),
+      rawType: file.type,
       fileUrl: imagekitResponse.url,
       thumbnailUrl: imagekitResponse.thumbnailUrl,
       owner: userId,

@@ -16,7 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FilterType } from "@/types";
+import { FilesType } from "@/types";
 
 interface FeedbackOptionsProps {
   folderId?: string;
@@ -53,7 +53,7 @@ export function FilterOptions({
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
 
-  const filterHandler = (value: FilterType) => {
+  const filterHandler = (value: FilesType) => {
     if (params.get("filter") === value) {
       params.delete("filter");
       router.push(`${path}?${params.toString()}`);
@@ -83,7 +83,7 @@ export function FilterOptions({
                   key={option.value}
                   value={option.value}
                   onSelect={(currValue) =>
-                    filterHandler(currValue as FilterType)
+                    filterHandler(currValue as FilesType)
                   }
                 >
                   {option.label}

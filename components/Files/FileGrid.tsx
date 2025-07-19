@@ -13,7 +13,7 @@ import Image from "next/image";
 import { type File } from "@/lib/db/schema";
 
 function FilePreview({ file }: { file: File }) {
-  const Icon = getFileIcon(file.type as string);
+  const Icon = getFileIcon(file.type);
 
   if (file.thumbnailUrl) {
     return (
@@ -31,7 +31,7 @@ function FilePreview({ file }: { file: File }) {
     <div
       className={cn(
         "w-full h-full flex items-center justify-center",
-        getFileColor(file.type as string)
+        getFileColor(file.type)
       )}
     >
       <Icon className="h-12 w-12" />
@@ -121,14 +121,14 @@ export function FileGrid({ files, isRoot = false }: FileGridProps) {
           // List View Mode
           <div className="space-y-1">
             {files.map((file) => {
-              const Icon = getFileIcon(file.type as string);
+              const Icon = getFileIcon(file.type);
               return (
                 <FileContextMenu key={file.id} file={file}>
                   <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
                     <div
                       className={cn(
                         "p-2 rounded-lg flex-shrink-0",
-                        getFileColor(file.type as string)
+                        getFileColor(file.type)
                       )}
                     >
                       <Icon className="h-4 w-4" />

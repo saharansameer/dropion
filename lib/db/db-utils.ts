@@ -1,10 +1,12 @@
 import { asc, desc, eq } from "drizzle-orm";
 import { FilesTable } from "./schema";
-import { SortOption } from "@/types";
+import { FilesType, SortOption } from "@/types";
 
-export function getFilterCondition(table: FilesTable, type?: string) {
-  if (!type || type === undefined || type === "undefined" || type.trim() === "")
-    return undefined;
+export function getFilterCondition(
+  table: FilesTable,
+  type?: FilesType
+) {
+  if (!type || type.trim() === "") return undefined;
 
   return eq(table.type, type);
 }
@@ -24,7 +26,7 @@ export function getSortOrder(table: FilesTable, option: SortOption) {
   }
 }
 
-export const allowedFilesTypes = [
+export const allowedMimeTypes = [
   "video/mp4",
   "video/quicktime",
   "video/webm",

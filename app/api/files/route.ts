@@ -3,7 +3,13 @@ import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { eq, and, isNull } from "drizzle-orm";
 import { withAuth } from "@/lib/api/wrapper";
-import { BaseResponse, FilesResponse, FilesCache, SortOption } from "@/types";
+import {
+  BaseResponse,
+  FilesResponse,
+  FilesCache,
+  SortOption,
+  FilesType,
+} from "@/types";
 import redis from "@/lib/redis";
 import { getFilterCondition, getSortOrder } from "@/lib/db/db-utils";
 
@@ -35,12 +41,16 @@ export const GET = withAuth(async (request: NextRequest, { userId }) => {
       ? [
           eq(files.parentId, parentId),
           eq(files.owner, userId),
-          ...(filter ? [getFilterCondition(files, filter)] : []),
+          ...(filter && filter !== "undefined"
+            ? [getFilterCondition(files, filter as FilesType)]
+            : []),
         ]
       : [
           eq(files.owner, userId),
           isNull(files.parentId),
-          ...(filter ? [getFilterCondition(files, filter)] : []),
+          ...(filter && filter !== "undefined"
+            ? [getFilterCondition(files, filter as FilesType)]
+            : []),
         ];
 
     // Fetch Files from Database
@@ -65,7 +75,8 @@ export const GET = withAuth(async (request: NextRequest, { userId }) => {
       { success: true, message: "Files Fetched", data: userFiles },
       { status: 200 }
     );
-  } catch {
+  } catch (error) {
+    console.log(error);
     return NextResponse.json<BaseResponse>(
       { success: false, message: "Failed to GET files" },
       { status: 500 }
