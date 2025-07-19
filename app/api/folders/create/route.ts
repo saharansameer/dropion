@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { files, NewFile } from "@/lib/db/schema";
-import { eq, and } from "drizzle-orm";
 import { withAuth } from "@/lib/api/wrapper";
 import { trimAndClean } from "@/lib/utils";
 import { BaseResponse, FilesResponse } from "@/types";
-import { v4 as uuidv4 } from "uuid";
 import { deleteByPrefix } from "@/lib/redis/redis-utils";
 
 export const POST = withAuth(async (request: NextRequest, { userId }) => {
@@ -22,47 +20,24 @@ export const POST = withAuth(async (request: NextRequest, { userId }) => {
       );
     }
 
-    // Validate Parent Folder
-    if (parentId) {
-      const [parentFolder] = await db
-        .select()
-        .from(files)
-        .where(
-          and(
-            eq(files.id, parentId),
-            eq(files.owner, userId),
-            eq(files.isFolder, true)
-          )
-        );
-
-      if (!parentFolder) {
-        return NextResponse.json<BaseResponse>(
-          { success: false, message: "Parent Folder Not Found" },
-          { status: 404 }
-        );
-      }
-    }
-
     // Extract Folder Data
     const folderData: NewFile = {
-      id: uuidv4(),
       name: trimmedFolderName,
-      path: `folders/${userId}/uuidv4`,
       size: 0,
       type: "folder",
-      fileUrl: "",
-      thumbnailUrl: "",
       owner: userId,
-      parentId,
-      isFolder: true
-
+      parentId: parentId,
+      isFolder: true,
+      path: "",
+      fileUrl: "",
+      thumbnailUrl: null,
     };
 
     // Save Folder Data in Database
     const [newFolder] = await db.insert(files).values(folderData).returning();
 
     // Clear Cache (if exist)
-    await deleteByPrefix(userId)
+    await deleteByPrefix(userId);
 
     // Final Response
     return NextResponse.json<FilesResponse>(

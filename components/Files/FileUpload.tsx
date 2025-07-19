@@ -2,7 +2,7 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { uploadSchema, UploadSchemaInputs } from "@/zod/schema/upload.schema";
+import { uploadSchema, UploadSchemaInputs } from "@/zod/schema/uploadSchema";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FileInput } from "@/components/ui/file-input";
 import { toast } from "sonner";
@@ -15,6 +15,7 @@ interface FileUploadProps {
 export function FileUpload({ variant }: FileUploadProps) {
   const { folderId } = useParams();
 
+  // File Upload Form
   const form = useForm<UploadSchemaInputs>({
     resolver: zodResolver(uploadSchema),
     defaultValues: {
@@ -24,9 +25,11 @@ export function FileUpload({ variant }: FileUploadProps) {
     reValidateMode: "onSubmit",
   });
 
+  // File Upload Handler
   const handleFileUpload: SubmitHandler<UploadSchemaInputs> = async (
     fileData
   ) => {
+    const toastId = toast.loading("Uploading File...");
     try {
       const formData = new FormData();
       formData.append("file", fileData.file);
@@ -42,18 +45,20 @@ export function FileUpload({ variant }: FileUploadProps) {
       const { success, message } = await response.json();
 
       if (!success) {
-        toast.error(message);
+        toast.error(message, { id: toastId });
         form.setError("file", { type: "validate", message });
         return;
       }
 
-      toast.success("File Uploaded Successfully");
+      toast.success("File Uploaded Successfully", { id: toastId });
     } catch {
-      toast.error("Unkown Error occured while uploading");
+      toast.error("Unkown Error occured while uploading", { id: toastId });
       form.setError("file", {
         type: "validate",
         message: "Unkown Error occured while uploading",
       });
+    } finally {
+      form.reset();
     }
   };
 
@@ -67,6 +72,7 @@ export function FileUpload({ variant }: FileUploadProps) {
             <FormItem>
               <FormControl>
                 <FileInput
+                  disabled={form.formState.isSubmitting}
                   id="file-input"
                   variant={variant}
                   value={field.value as File}

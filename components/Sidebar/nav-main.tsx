@@ -10,7 +10,7 @@ import {
 import { type LucideIcon } from "lucide-react";
 import { Home, FolderClosed, Trash, Star, FolderPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { FileUpload } from "@/components/Files/FileUpload";
+import { FileUpload, FolderForm } from "@/components/client";
 
 const navMain: {
   title: string;
@@ -50,10 +50,15 @@ export function NavMain() {
           <FileUpload variant="button" />
         </SidebarMenuItem>
         <SidebarMenuItem>
-          <SidebarMenuButton tooltip={"New Folder"}>
-            <FolderPlus style={iconStyle} />
-            New Folder
-          </SidebarMenuButton>
+          <FolderForm
+            mode="post"
+            trigger={
+              <SidebarMenuButton tooltip={"New Folder"}>
+                <FolderPlus style={iconStyle} />
+                New Folder
+              </SidebarMenuButton>
+            }
+          />
         </SidebarMenuItem>
 
         <SidebarSeparator />
