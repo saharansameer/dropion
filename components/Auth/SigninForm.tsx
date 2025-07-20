@@ -117,7 +117,7 @@ export function SigninForm() {
             form.formState.isSubmitSuccessful ||
             !isLoaded
           }
-          className="font-semibold w-full"
+          className="font-semibold w-full cursor-pointer"
         >
           {form.formState.isSubmitting ? <LoaderSpin /> : "Sign in"}
         </Button>

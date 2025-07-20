@@ -19,7 +19,6 @@ async function FolderData({ params, searchParams }: PageProps) {
       next: { revalidate: 0 },
       headers: {
         cookie: headersList.get("cookie") || "",
-        authorization: headersList.get("authorization") || "",
       },
     }
   ).then((res) => res.json());

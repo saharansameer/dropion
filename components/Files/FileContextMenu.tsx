@@ -25,11 +25,13 @@ export function FileContextMenu({ file, children }: FileContextMenuProps) {
     <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
       <ContextMenuContent className="w-52">
-        <StarredToggle
-          fileId={file.id}
-          isStarred={file.isStarred}
-          trigger="context-menu"
-        />
+        {!file.isTrash && (
+          <StarredToggle
+            fileId={file.id}
+            isStarred={file.isStarred}
+            trigger="context-menu"
+          />
+        )}
 
         {!file.isFolder && (
           <ShareButton url={file.fileUrl} trigger="context-menu" />

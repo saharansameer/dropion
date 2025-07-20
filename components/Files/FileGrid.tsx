@@ -14,6 +14,7 @@ import { type File } from "@/lib/db/schema";
 import { useRouter } from "next/navigation";
 import { useFileViewer } from "@/hooks/use-file-viewer";
 import { FileUpload } from "../Forms/FileUpload";
+import { EmptyState } from "../Layout/EmptyState";
 
 function FilePreview({ file }: { file: File }) {
   const Icon = getFileIcon(file.type);
@@ -45,9 +46,10 @@ function FilePreview({ file }: { file: File }) {
 interface FileGridProps {
   files?: File[];
   isRoot?: boolean;
+  isAnother?: "starred" | "trash";
 }
 
-export function FileGrid({ files, isRoot = false }: FileGridProps) {
+export function FileGrid({ files, isRoot = false, isAnother }: FileGridProps) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const router = useRouter();
   const { onOpen } = useFileViewer();
@@ -65,8 +67,14 @@ export function FileGrid({ files, isRoot = false }: FileGridProps) {
     return (
       <div className="w-full mx-auto flex justify-center py-10">
         <div className="w-full max-w-4xl">
-          <h2 className="font-semibold mb-4 text-center">Folder is empty, Add files</h2>
-          <FileUpload variant="dropzone" />
+          {!isAnother && (
+            <>
+              <EmptyState type="files" />
+              <FileUpload variant="dropzone" />
+            </>
+          )}
+
+          {isAnother && <EmptyState type={isAnother} />}
         </div>
       </div>
     );
@@ -96,10 +104,12 @@ export function FileGrid({ files, isRoot = false }: FileGridProps) {
         </div>
 
         {/* Filter & Sort */}
-        <div className="flex gap-x-2">
-          <FilterOptions isRoot={isRoot} />
-          <SortOptions isRoot={isRoot} />
-        </div>
+        {!isAnother && (
+          <div className="flex gap-x-2">
+            <FilterOptions isRoot={isRoot} />
+            <SortOptions isRoot={isRoot} />
+          </div>
+        )}
       </div>
       <div className="p-1 sm:p-6">
         {viewMode === "grid" ? ( // Grid View Mode

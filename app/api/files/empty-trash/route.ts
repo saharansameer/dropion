@@ -1,28 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { withAuth } from "@/lib/api/wrapper";
 import { BaseResponse } from "@/types";
 import { deleteByPrefix } from "@/lib/redis/redis-utils";
 
 export const DELETE = withAuth(async (request: NextRequest, { userId }) => {
   try {
-    // Extract File Id form query params
-    const searchParams = request.nextUrl.searchParams;
-    const id = searchParams.get("id");
-
-    if (!id) {
-      return NextResponse.json<BaseResponse>(
-        { success: false, message: "Invalid File Id" },
-        { status: 404 }
-      );
-    }
-
-    // Perform Delete
-    const [deleted] = await db
+    // Perform Permanent Deletion
+    const deleted = await db
       .delete(files)
-      .where(and(eq(files.id, id), eq(files.owner, userId)))
+      .where(and(eq(files.owner, userId), eq(files.isTrash, true)))
       .returning();
 
     if (!deleted) {
@@ -32,11 +21,18 @@ export const DELETE = withAuth(async (request: NextRequest, { userId }) => {
       );
     }
 
-    // If the deleted item was a folder, also delete all of its child files
-    if (deleted.isFolder) {
+    // Extract parent id
+    const parentIds = deleted
+      .filter((item) => item.isFolder)
+      .map((item) => item.id);
+
+    // Delete Folder Content
+    if (parentIds.length > 0) {
       await db
         .delete(files)
-        .where(and(eq(files.parentId, deleted.id), eq(files.owner, userId)))
+        .where(
+          and(inArray(files.parentId, parentIds), eq(files.owner, userId))
+        );
     }
 
     // Clear Cache

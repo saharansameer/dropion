@@ -117,6 +117,7 @@ export function RenameForm({ fileId, currName, trigger }: RenameFormProps) {
               type="submit"
               variant={"default"}
               disabled={form.formState.isSubmitting}
+              className="cursor-pointer"
             >
               {form.formState.isSubmitting ? <LoaderSpin /> : "Save Changes"}
             </Button>

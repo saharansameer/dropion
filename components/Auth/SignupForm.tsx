@@ -158,6 +158,7 @@ export function SignupForm() {
               otpForm.formState.isSubmitSuccessful ||
               !isLoaded
             }
+            className="cursor-pointer"
           >
             {otpForm.formState.isSubmitting ? <LoaderSpin /> : "Verify"}
           </Button>

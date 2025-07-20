@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FileUpload } from "@/components/Files/FileUpload";
+import { FileUpload } from "@/components/Forms/FileUpload";
 
 export const metadata: Metadata = {
   title: "Home",

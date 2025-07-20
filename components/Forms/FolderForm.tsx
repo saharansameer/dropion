@@ -103,6 +103,7 @@ export function FolderForm({ trigger }: FolderFormProps) {
               type="submit"
               variant={"default"}
               disabled={form.formState.isSubmitting}
+              className="cursor-pointer"
             >
               {form.formState.isSubmitting ? <LoaderSpin /> : "Create"}
             </Button>

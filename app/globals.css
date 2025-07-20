@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@layer utilities {
+  .destructive-button {
+    @apply bg-destructive text-white shadow-xs hover:bg-destructive/80 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60;
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

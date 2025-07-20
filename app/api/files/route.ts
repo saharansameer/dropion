@@ -41,6 +41,7 @@ export const GET = withAuth(async (request: NextRequest, { userId }) => {
       ? [
           eq(files.parentId, parentId),
           eq(files.owner, userId),
+          eq(files.isTrash, false),
           ...(filter && filter !== "undefined"
             ? [getFilterCondition(files, filter as FilesType)]
             : []),
@@ -48,6 +49,7 @@ export const GET = withAuth(async (request: NextRequest, { userId }) => {
       : [
           eq(files.owner, userId),
           isNull(files.parentId),
+          eq(files.isTrash, false),
           ...(filter && filter !== "undefined"
             ? [getFilterCondition(files, filter as FilesType)]
             : []),

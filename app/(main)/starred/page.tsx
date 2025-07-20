@@ -3,21 +3,15 @@ import { headers } from "next/headers";
 import { FileGrid } from "@/components/Files/FileGrid";
 
 export const metadata: Metadata = {
-  title: "My Files",
-  description: "My Files Root Folder",
+  title: "Starred | Dropion",
+  description: "View your starred files",
 };
 
-interface PageProps {
-  searchParams: Promise<{ filter?: string; sort?: string }>;
-}
-
-async function RootFolder({ searchParams }: PageProps) {
-  const { filter, sort } = await searchParams;
-
+async function StarredData() {
   const headersList = await headers();
 
   const { success, message, data } = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/files?filter=${filter}&sort=${sort}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/files/toggle/star`,
     {
       method: "GET",
       next: { revalidate: 0 },
@@ -31,13 +25,13 @@ async function RootFolder({ searchParams }: PageProps) {
     return <div>{message}</div>;
   }
 
-  return <FileGrid files={data} isRoot={true} />;
+  return <FileGrid files={data} isAnother={"starred"} />;
 }
 
-export default function Page(props: PageProps) {
+export default function Page() {
   return (
     <div>
-      <RootFolder {...props} />
+      <StarredData />
     </div>
   );
 }
