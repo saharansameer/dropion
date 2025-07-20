@@ -47,9 +47,10 @@ interface FileGridProps {
   files?: File[];
   isRoot?: boolean;
   isAnother?: "starred" | "trash";
+  hideOptions?: boolean
 }
 
-export function FileGrid({ files, isRoot = false, isAnother }: FileGridProps) {
+export function FileGrid({ files, isRoot = false, isAnother, hideOptions = false }: FileGridProps) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const router = useRouter();
   const { onOpen } = useFileViewer();
@@ -104,12 +105,11 @@ export function FileGrid({ files, isRoot = false, isAnother }: FileGridProps) {
         </div>
 
         {/* Filter & Sort */}
-        {!isAnother && (
-          <div className="flex gap-x-2">
-            <FilterOptions isRoot={isRoot} />
-            <SortOptions isRoot={isRoot} />
-          </div>
-        )}
+
+        <div className={hideOptions ? "hidden" : "flex gap-x-2"}>
+          <FilterOptions isRoot={isRoot} />
+          <SortOptions isRoot={isRoot} />
+        </div>
       </div>
       <div className="p-1 sm:p-6">
         {viewMode === "grid" ? ( // Grid View Mode

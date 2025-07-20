@@ -16,9 +16,10 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { BrushCleaning } from "lucide-react";
 
-export function EmptyTrash() {
+export function EmptyTrash({ isTrashEmpty }: { isTrashEmpty: boolean }) {
   const router = useRouter();
   const emptyTrashHandler = async () => {
+    const toastId = toast.loading("Deleting Files...");
     try {
       const { success, message } = await fetch("/api/files/empty-trash", {
         method: "DELETE",
@@ -26,20 +27,20 @@ export function EmptyTrash() {
       }).then((res) => res.json());
 
       if (!success) {
-        toast.error(message);
+        toast.error(message, { id: toastId });
         return;
       }
 
-      toast.success(message);
+      toast.success(message, { id: toastId });
       router.refresh();
     } catch {
-      toast.error("Star Toggle Failed");
+      toast.error("Star Toggle Failed", { id: toastId });
     }
   };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={"outline"} size={"lg"} className="cursor-pointer my-2">
+        <Button disabled={isTrashEmpty} variant={"outline"} size={"lg"} className="cursor-pointer my-2">
           <BrushCleaning />
           Empty Trash
         </Button>

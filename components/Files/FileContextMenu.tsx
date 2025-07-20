@@ -13,6 +13,7 @@ import {
   TrashToggle,
   RenameForm,
   ShareButton,
+  DownloadButton,
 } from "@/components/client";
 
 interface FileContextMenuProps {
@@ -34,7 +35,14 @@ export function FileContextMenu({ file, children }: FileContextMenuProps) {
         )}
 
         {!file.isFolder && (
-          <ShareButton url={file.fileUrl} trigger="context-menu" />
+          <>
+            <ShareButton url={file.fileUrl} trigger="context-menu" />
+            <DownloadButton
+              fileUrl={file.fileUrl}
+              fileName={file.name}
+              trigger="context-menu"
+            />
+          </>
         )}
 
         <RenameForm

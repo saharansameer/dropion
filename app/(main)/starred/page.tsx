@@ -26,7 +26,7 @@ async function StarredData() {
     return <div>{message}</div>;
   }
 
-  return <FileGrid files={data} isAnother={"starred"} />;
+  return <FileGrid files={data} isAnother={"starred"} hideOptions={true} />;
 }
 
 export default function Page() {

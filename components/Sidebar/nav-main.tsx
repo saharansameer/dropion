@@ -51,7 +51,6 @@ export function NavMain() {
         </SidebarMenuItem>
         <SidebarMenuItem>
           <FolderForm
-            mode="post"
             trigger={
               <SidebarMenuButton tooltip={"New Folder"}>
                 <FolderPlus style={iconStyle} />

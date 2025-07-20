@@ -27,13 +27,17 @@ async function TrashData() {
     return <div>{message}</div>;
   }
 
-  return <FileGrid files={data} isAnother={"trash"} />;
+  return (
+    <>
+      <EmptyTrash isTrashEmpty={data.length === 0} />
+      <FileGrid files={data} isAnother={"trash"} hideOptions={true} />
+    </>
+  );
 }
 
 export default function Page() {
   return (
     <div>
-      <EmptyTrash />
       <TrashData />
     </div>
   );

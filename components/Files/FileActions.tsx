@@ -11,6 +11,7 @@ import {
   TrashToggle,
   RenameForm,
   ShareButton,
+  DownloadButton,
 } from "@/components/client";
 
 export function FileActions({ file }: { file: File }) {
@@ -34,10 +35,21 @@ export function FileActions({ file }: { file: File }) {
         />
 
         {!file.isFolder && (
-          <ShareButton url={file.fileUrl} trigger="dropdown" />
+          <>
+            <ShareButton url={file.fileUrl} trigger="dropdown" />
+            <DownloadButton
+              fileUrl={file.fileUrl}
+              fileName={file.name}
+              trigger="dropdown"
+            />
+          </>
         )}
 
-        <RenameForm fileId={file.id} currName={file.name} trigger={"dropdown"} />
+        <RenameForm
+          fileId={file.id}
+          currName={file.name}
+          trigger={"dropdown"}
+        />
 
         <TrashToggle
           fileId={file.id}
