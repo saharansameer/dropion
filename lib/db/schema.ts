@@ -8,23 +8,22 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-
-export const profiles = pgTable("profiles", {
-  userId: text("user_id").primaryKey(),
-});
+import { FilesType, MimeType } from "@/types";
 
 export const files = pgTable("files", {
   id: uuid("id").defaultRandom().primaryKey(),
 
   // File/Folder Info
-  name: text("name").notNull(),
+  name: varchar("name", { length: 100 }).notNull(),
   path: text("path").notNull(),
   size: integer("size").notNull(),
-  type: varchar("type", { enum: ["FILE", "FOLDER"] }).notNull(),
+  type: text("type").$type<FilesType>().notNull(),
+  mimeType: text("mime_type").$type<MimeType>(),
 
   // Storage Info
   fileUrl: text("file_url").notNull(),
   thumbnailUrl: text("thumbnail_url"),
+  imagekitId: text("imagekit_id"),
 
   // Owner Info
   owner: text("owner").notNull(),
@@ -50,5 +49,6 @@ export const filesRealtions = relations(files, ({ one, many }) => ({
 }));
 
 // Types
-export const File = typeof files.$inferSelect;
-export const NewFile = typeof files.$inferInsert
+export type File = typeof files.$inferSelect;
+export type NewFile = typeof files.$inferInsert;
+export type FilesTable = typeof files;
