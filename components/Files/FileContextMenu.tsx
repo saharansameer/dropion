@@ -4,40 +4,48 @@ import type { ReactNode } from "react";
 import {
   ContextMenu,
   ContextMenuContent,
-  ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { Info, SquarePen, ExternalLink, Trash2 } from "lucide-react";
+
 import { type File } from "@/lib/db/schema";
+import {
+  StarredToggle,
+  TrashToggle,
+  RenameForm,
+  ShareButton,
+} from "@/components/client";
 
 interface FileContextMenuProps {
   file: File;
   children: ReactNode;
 }
 
-const iconStyle = { width: "18px", height: "18px" };
-
 export function FileContextMenu({ file, children }: FileContextMenuProps) {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem>
-          <Info className="mr-2" /> Details
-        </ContextMenuItem>
-        <ContextMenuItem>
-          <ExternalLink className="mr-2" />
-          Share
-        </ContextMenuItem>
-        <ContextMenuItem>
-          <SquarePen className="mr-2" />
-          Rename
-        </ContextMenuItem>
+      <ContextMenuContent className="w-52">
+        <StarredToggle
+          fileId={file.id}
+          isStarred={file.isStarred}
+          trigger="context-menu"
+        />
 
-        <ContextMenuItem>
-          <Trash2 className="mr-2" />
-          Delete
-        </ContextMenuItem>
+        {!file.isFolder && (
+          <ShareButton url={file.fileUrl} trigger="context-menu" />
+        )}
+
+        <RenameForm
+          fileId={file.id}
+          currName={file.name}
+          trigger="context-menu"
+        />
+
+        <TrashToggle
+          fileId={file.id}
+          isTrash={file.isTrash}
+          trigger="context-menu"
+        />
       </ContextMenuContent>
     </ContextMenu>
   );

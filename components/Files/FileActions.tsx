@@ -1,19 +1,17 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui";
-import {
-  MoreVertical,
-  Info,
-  SquarePen,
-  ExternalLink,
-  Trash2,
-} from "lucide-react";
+import { MoreVertical } from "lucide-react";
 import { type File } from "@/lib/db/schema";
+import {
+  StarredToggle,
+  TrashToggle,
+  RenameForm,
+  ShareButton,
+} from "@/components/client";
 
 export function FileActions({ file }: { file: File }) {
   return (
@@ -29,25 +27,23 @@ export function FileActions({ file }: { file: File }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuItem>
-          <Info className="mr-2" /> Details
-        </DropdownMenuItem>
+        <StarredToggle
+          fileId={file.id}
+          isStarred={file.isStarred}
+          trigger="dropdown"
+        />
 
-        <DropdownMenuItem>
-          <ExternalLink className="mr-2" />
-          Share
-        </DropdownMenuItem>
+        {!file.isFolder && (
+          <ShareButton url={file.fileUrl} trigger="dropdown" />
+        )}
 
-        <DropdownMenuItem>
-          <SquarePen className="mr-2" />
-          Rename
-        </DropdownMenuItem>
+        <RenameForm fileId={file.id} currName={file.name} trigger={"dropdown"} />
 
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-destructive focus:text-destructive">
-          <Trash2 className="mr-2" />
-          Delete
-        </DropdownMenuItem>
+        <TrashToggle
+          fileId={file.id}
+          isTrash={file.isTrash}
+          trigger="dropdown"
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );

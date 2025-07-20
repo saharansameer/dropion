@@ -13,7 +13,7 @@ import Image from "next/image";
 import { type File } from "@/lib/db/schema";
 import { useRouter } from "next/navigation";
 import { useFileViewer } from "@/hooks/use-file-viewer";
-import { FileUpload } from "./FileUpload";
+import { FileUpload } from "../Forms/FileUpload";
 
 function FilePreview({ file }: { file: File }) {
   const Icon = getFileIcon(file.type);
