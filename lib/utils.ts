@@ -8,3 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function trimAndClean(val: string) {
   return val.trim().replace(/\s+/g, " ");
 }
+
+export function getCurrentFullYear() {
+  return new Date().getFullYear();
+}

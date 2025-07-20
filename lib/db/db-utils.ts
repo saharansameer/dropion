@@ -30,6 +30,7 @@ export const allowedMimeTypes = [
   "image/jpeg",
   "image/jpg",
   "image/png",
+  "image/webp",
   "application/pdf",
   "text/plain",
 ] as const;
