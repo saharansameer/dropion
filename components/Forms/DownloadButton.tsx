@@ -21,6 +21,7 @@ export function DownloadButton({
     trigger === "context-menu" ? ContextMenuItem : DropdownMenuItem;
 
   const handleDownload = async () => {
+    const toastId = toast.loading("Preparing File for download...");
     try {
       const res = await fetch(fileUrl);
       const blob = await res.blob();
@@ -34,9 +35,9 @@ export function DownloadButton({
       a.remove();
       window.URL.revokeObjectURL(url);
 
-      toast.info("File Ready for Download");
+      toast.info("File Ready for Download", { id: toastId });
     } catch {
-      toast.error("Unable to Download");
+      toast.error("Unable to Download", { id: toastId });
     }
   };
 

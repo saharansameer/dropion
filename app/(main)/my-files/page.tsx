@@ -3,8 +3,7 @@ import { headers } from "next/headers";
 import { FileGrid } from "@/components/Files/FileGrid";
 
 export const metadata: Metadata = {
-  title: "My Files",
-  description: "My Files Root Folder",
+  title: "My Files | Dropion",
 };
 
 interface PageProps {

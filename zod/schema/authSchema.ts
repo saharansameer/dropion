@@ -28,7 +28,6 @@ export const otpSchema = z.object({
   otp: z
     .string()
     .min(6, { error: "Invalid OTP" })
-    .max(6, { error: "Invalid OTP" }),
 });
 
-export type OtpSchemaInputs = z.input<typeof otpSchema>;
+export type OtpSchemaInfer = z.infer<typeof otpSchema>;

@@ -37,6 +37,8 @@ export function SigninForm() {
       return;
     }
 
+    const toastId = toast.loading("Signing in...");
+
     try {
       const { identifier, password } = formData;
 
@@ -45,13 +47,9 @@ export function SigninForm() {
         password,
       });
 
-      console.log("Signin Result:", result);
-
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
-        toast.success("Sign-in Success")
-        router.push("/home");
-        router.refresh();
+        toast.success("Sign-in Success", { id: toastId });
       } else {
         form.setError("root", {
           type: "validate",
@@ -59,12 +57,14 @@ export function SigninForm() {
         });
       }
     } catch (error: AnyError) {
-      console.error("Signin Error:", error);
+      toast.error("Sign-in Error", { id: toastId });
       form.setError("root", {
         type: "validate",
         message:
           error?.errors?.[0]?.message || "Someting went wrong during sign-in",
       });
+    } finally {
+      router.refresh();
     }
   };
 

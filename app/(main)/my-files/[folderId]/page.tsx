@@ -1,5 +1,10 @@
 import { headers } from "next/headers";
 import { FileGrid } from "@/components/Files/FileGrid";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Folder | Dropion",
+};
 
 interface PageProps {
   params: Promise<{ folderId?: string }>;

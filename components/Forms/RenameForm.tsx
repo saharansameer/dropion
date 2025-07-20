@@ -82,7 +82,7 @@ export function RenameForm({ fileId, currName, trigger }: RenameFormProps) {
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>
-        <Trigger>
+        <Trigger onSelect={(e) => e.preventDefault()}>
           <SquarePen />
           Rename
         </Trigger>

@@ -44,8 +44,7 @@ export const GET = withAuth(async (request: NextRequest, { userId }) => {
       { success: true, message: "Fetched Recent Files", data: userFiles },
       { status: 200 }
     );
-  } catch (error) {
-    console.error(error);
+  } catch {
     return NextResponse.json<BaseResponse>(
       { success: false, message: "Failed to GET recent files" },
       { status: 500 }

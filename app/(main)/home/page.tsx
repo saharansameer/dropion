@@ -5,8 +5,7 @@ import { headers } from "next/headers";
 import { ClockFading } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Home",
-  description: "Explore Dropion",
+  title: "Home | Dropion",
 };
 
 async function RecentFiles() {

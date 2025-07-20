@@ -7,8 +7,9 @@ const isProtectedRoute = createRouteMatcher([
   "/my-files",
   "/starred",
   "/trash",
+  "/user-profile",
 ]);
-const isAuthRoute = createRouteMatcher(["/sign-in", "/sign-up"]);
+const isAuthRoute = createRouteMatcher(["/sign-in", "/sign-up", "/verify-account"]);
 
 export default clerkMiddleware(async (auth, request) => {
   const { userId } = await auth();
