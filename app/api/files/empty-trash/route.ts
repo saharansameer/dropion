@@ -5,9 +5,13 @@ import { and, eq, inArray } from "drizzle-orm";
 import { withAuth } from "@/lib/api/wrapper";
 import { BaseResponse } from "@/types";
 import { deleteByPrefix } from "@/lib/redis/redis-utils";
+import imagekit from "@/lib/imagekit";
 
 export const DELETE = withAuth(async (request: NextRequest, { userId }) => {
   try {
+    // Array to store imagekit id
+    const imagekitFileIds = [];
+
     // Perform Permanent Deletion
     const deleted = await db
       .delete(files)
@@ -21,6 +25,12 @@ export const DELETE = withAuth(async (request: NextRequest, { userId }) => {
       );
     }
 
+    // Get imagekitId of deleted files
+    const ids = deleted
+      .filter((item) => !item.isFolder)
+      .map((item) => item.imagekitId);
+    imagekitFileIds.push(...ids);
+
     // Extract parent id
     const parentIds = deleted
       .filter((item) => item.isFolder)
@@ -28,11 +38,19 @@ export const DELETE = withAuth(async (request: NextRequest, { userId }) => {
 
     // Delete Folder Content
     if (parentIds.length > 0) {
-      await db
+      const children = await db
         .delete(files)
-        .where(
-          and(inArray(files.parentId, parentIds), eq(files.owner, userId))
-        );
+        .where(and(inArray(files.parentId, parentIds), eq(files.owner, userId)))
+        .returning();
+
+      // Get imagekitId of deleted children
+      const ids = children.map((item) => item.imagekitId);
+      imagekitFileIds.push(...ids);
+    }
+
+    // Delete From Imagekit
+    if (imagekitFileIds.length !== 0) {
+      await imagekit.bulkDeleteFiles(imagekitFileIds as string[]);
     }
 
     // Clear Cache

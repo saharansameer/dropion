@@ -22,7 +22,8 @@ async function RootFolder({ searchParams }: PageProps) {
       method: "GET",
       next: { revalidate: 0 },
       headers: {
-        cookie: headersList.get("cookie") || ""
+        cookie: headersList.get("cookie") || "",
+        authorization: headersList.get("authorization") || "",
       },
     }
   ).then((res) => res.json());

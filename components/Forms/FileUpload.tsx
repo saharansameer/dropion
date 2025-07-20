@@ -7,6 +7,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FileInput } from "@/components/ui/file-input";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface FileUploadProps {
   variant: "dropzone" | "button";
@@ -14,6 +15,7 @@ interface FileUploadProps {
 
 export function FileUpload({ variant }: FileUploadProps) {
   const { folderId } = useParams();
+  const router = useRouter();
 
   // File Upload Form
   const form = useForm<UploadSchemaInputs>({
@@ -59,6 +61,7 @@ export function FileUpload({ variant }: FileUploadProps) {
       });
     } finally {
       form.reset();
+      router.refresh();
     }
   };
 

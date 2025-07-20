@@ -8,13 +8,8 @@ import {
   getUploadFileType,
 } from "@/lib/db/db-utils";
 import { BaseResponse, FilesResponse, MimeType } from "@/types";
-import ImageKit from "imagekit";
-
-const imagekit = new ImageKit({
-  privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
-  publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!,
-  urlEndpoint: process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!,
-});
+import imagekit from "@/lib/imagekit";
+import { deleteByPrefix } from "@/lib/redis/redis-utils";
 
 export const POST = withAuth(async (request: NextRequest, { userId }) => {
   try {
@@ -60,15 +55,19 @@ export const POST = withAuth(async (request: NextRequest, { userId }) => {
       path: imagekitResponse.filePath,
       size: file.size,
       type: getUploadFileType(file.type),
-      rawType: file.type,
+      mimeType: file.type as MimeType,
       fileUrl: imagekitResponse.url,
       thumbnailUrl: imagekitResponse.thumbnailUrl,
       owner: userId,
       parentId: parentId,
+      imagekitId: imagekitResponse.fileId,
     };
 
     // Save File Info in Database
     const [newFile] = await db.insert(files).values(fileInfo).returning();
+
+    // Clear cache
+    await deleteByPrefix(userId);
 
     // Final Response
     return NextResponse.json<FilesResponse>(

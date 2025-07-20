@@ -78,7 +78,7 @@ export const GET = withAuth(async (request: NextRequest, { userId }) => {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json<BaseResponse>(
       { success: false, message: "Failed to GET files" },
       { status: 500 }
