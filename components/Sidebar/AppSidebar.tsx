@@ -11,31 +11,10 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarSeparator
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
-
-/*{
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    }, */
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   return (
@@ -62,11 +41,11 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarSeparator/>
+      <SidebarSeparator />
       <SidebarContent>
         <NavMain />
       </SidebarContent>
-      <SidebarSeparator/>
+      <SidebarSeparator />
       <SidebarFooter className="border-none outline-0 ring-0">
         <NavUser />
       </SidebarFooter>

@@ -15,7 +15,7 @@ export function UserAvatar({
 }: UserAvatarProps) {
   return (
     <Avatar className={className}>
-      <AvatarImage src={src} alt={`${altText}`} className="bg-[#141414]" />
+      <AvatarImage src={src} alt={`${altText}`} />
       <AvatarFallback
         className={scale ? "scale-200 font-semibold" : "font-semibold"}
       >

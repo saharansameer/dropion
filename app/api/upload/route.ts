@@ -10,6 +10,7 @@ import {
 import { BaseResponse, FilesResponse, MimeType } from "@/types";
 import imagekit from "@/lib/imagekit";
 import { deleteByPrefix } from "@/lib/redis/redis-utils";
+import { getAvailableSpace } from "@/lib/space";
 
 export const POST = withAuth(async (request: NextRequest, { userId }) => {
   try {
@@ -32,6 +33,15 @@ export const POST = withAuth(async (request: NextRequest, { userId }) => {
     if (!allowedMimeTypes.includes(file.type as MimeType)) {
       return NextResponse.json<BaseResponse>(
         { success: false, message: "Unsupported File Type" },
+        { status: 400 }
+      );
+    }
+
+    // Check if User has sufficient free space
+    const availableSpace = await getAvailableSpace(userId);
+    if (file.size > availableSpace) {
+      return NextResponse.json<BaseResponse>(
+        { success: false, message: "Insufficient Space" },
         { status: 400 }
       );
     }

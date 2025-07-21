@@ -9,3 +9,13 @@ export type RequestHandler = (
   request: NextRequest,
   authData: { userId: string }
 ) => Promise<NextResponse>;
+
+export type SpaceCache = {
+  availableSpace: number;
+  totalSpace: number;
+  usedSpace: number;
+};
+
+export interface SpaceResponse extends BaseResponse {
+  data: SpaceCache;
+}

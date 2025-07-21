@@ -14,12 +14,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
+  SidebarSeparator
 } from "@/components/ui/sidebar";
 import { UserRound, ChevronsUpDown, LogOut, SunMoon } from "lucide-react";
 import { UserAvatar } from "@/components/server";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { UserSpace } from "./user-space";
 
 export function NavUser() {
   const { signOut } = useClerk();
@@ -32,6 +34,11 @@ export function NavUser() {
 
   return (
     <SidebarMenu>
+      <SidebarMenuButton variant={null} className="p-0 m-0 hover:bg-sidebar select-none">
+        <UserSpace />
+      </SidebarMenuButton>
+
+      <SidebarSeparator />
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
