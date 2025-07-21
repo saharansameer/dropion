@@ -118,7 +118,7 @@ export function FileGrid({ files, isRoot = false, isAnother, hideOptions = false
               <FileContextMenu key={file.id} file={file}>
                 <div
                   onClick={() => handleFileClick(file)}
-                  className="group relative bg-card border rounded-xl p-3 hover:shadow-md transition-all duration-200 hover:-translate-y-1 cursor-pointer"
+                  className="group relative bg-card border rounded-xl p-3 hover:shadow-md transition-all duration-200 hover:-translate-y-1 cursor-pointer animate-in fade-in-0 slide-in-from-top-4"
                 >
                   {/* File preview */}
                   <div className="aspect-square rounded-lg mb-3 relative overflow-hidden bg-muted/20">
@@ -158,7 +158,7 @@ export function FileGrid({ files, isRoot = false, isAnother, hideOptions = false
               const Icon = getFileIcon(file.type);
               return (
                 <FileContextMenu key={file.id} file={file}>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col animate-in fade-in-0 slide-in-from-top-4">
                     <Separator orientation="horizontal" />
                     <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
                       <div

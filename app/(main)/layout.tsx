@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ReactChildren } from "@/types";
 import {
   SidebarProvider,
@@ -8,6 +9,12 @@ import { AppSidebar } from "@/components/Sidebar/AppSidebar";
 import { AppBreadcrumb } from "@/components/Layout/AppBreadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { FileViewer } from "@/components/Files/FileViewer";
+
+export const metadata: Metadata = {
+  title: "Home | Dropion",
+  description: "Manage Your Drops With Ease",
+  metadataBase: new URL("https://dropion.sameersaharan.com/home"),
+};
 
 export default function Layout({ children }: ReactChildren) {
   return (
