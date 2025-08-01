@@ -27,7 +27,7 @@ export function AppBreadcrumb() {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="truncate max-h-5">
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link href="/home">Home</Link>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { FileGrid } from "@/components/Files/FileGrid";
+import { Suspense } from "react";
+import { FileGridSkeleton } from "@/components/skeleton/file-grid-skeleton";
 
 export const metadata: Metadata = {
   title: "Starred | Dropion",
@@ -31,8 +33,8 @@ async function StarredData() {
 
 export default function Page() {
   return (
-    <div>
+    <Suspense fallback={<FileGridSkeleton />}>
       <StarredData />
-    </div>
+    </Suspense>
   );
 }

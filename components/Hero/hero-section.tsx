@@ -371,11 +371,11 @@ export default function HeroSection() {
       </section>
 
       {/* Footer */}
-      <footer className="py-2 sm:py-4 border-t border-border bg-background">
+      <footer className="py-2 sm:py-4 border-t border-border bg-background antialiased">
         <div className="container px-4 md:px-6 max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-muted-foreground font-sans">
-              &copy; {getCurrentFullYear()} Dropion. All rights reserved.
+              &copy; {getCurrentFullYear()} Dropion. All Rights Reserved.
             </p>
 
             <div className="flex items-center space-x-1 text-sm text-muted-foreground font-sans">

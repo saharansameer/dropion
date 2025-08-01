@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { FileGrid } from "@/components/Files/FileGrid";
+import { Suspense } from "react";
+import { FileGridSkeleton } from "@/components/skeleton/file-grid-skeleton";
 
 export const metadata: Metadata = {
   title: "My Files | Dropion",
@@ -36,8 +38,8 @@ async function RootFolder({ searchParams }: PageProps) {
 
 export default function Page(props: PageProps) {
   return (
-    <div>
+    <Suspense fallback={<FileGridSkeleton />}>
       <RootFolder {...props} />
-    </div>
+    </Suspense>
   );
 }

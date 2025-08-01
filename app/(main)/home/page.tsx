@@ -3,6 +3,8 @@ import { FileUpload } from "@/components/Forms/FileUpload";
 import { FileGrid } from "@/components/Files/FileGrid";
 import { headers } from "next/headers";
 import { ClockFading } from "lucide-react";
+import { Suspense } from "react";
+import { FileGridSkeleton } from "@/components/skeleton/file-grid-skeleton";
 
 export const metadata: Metadata = {
   title: "Home | Dropion",
@@ -43,7 +45,9 @@ export default function Page() {
             <ClockFading />
             Most Recent Files
           </h2>
-          <RecentFiles />
+          <Suspense fallback={<FileGridSkeleton />}>
+            <RecentFiles />
+          </Suspense>
         </div>
       </div>
     </div>

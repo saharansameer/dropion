@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { FileGrid } from "@/components/Files/FileGrid";
 import { EmptyTrash } from "@/components/client";
+import { Suspense } from "react";
+import { FileGridSkeleton } from "@/components/skeleton/file-grid-skeleton";
 
 export const metadata: Metadata = {
   title: "Trash | Dropion",
@@ -37,8 +39,8 @@ async function TrashData() {
 
 export default function Page() {
   return (
-    <div>
+    <Suspense fallback={<FileGridSkeleton />}>
       <TrashData />
-    </div>
+    </Suspense>
   );
 }
