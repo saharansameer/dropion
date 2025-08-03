@@ -216,7 +216,7 @@ export default function HeroSection() {
                 Get Started
               </Link>
               <Link
-                href="/demo"
+                href="https://sameersaharan.com/demo/dropion"
                 target="_blank"
                 className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md border border-border transition-all duration-300 group font-medium"
               >

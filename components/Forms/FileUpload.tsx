@@ -8,6 +8,9 @@ import { FileInput } from "@/components/ui/file-input";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { upload } from "@imagekit/next";
+import { getFolderName } from "@/lib/db/db-utils";
+import { useUser } from "@clerk/nextjs";
 
 interface FileUploadProps {
   variant: "dropzone" | "button";
@@ -16,6 +19,7 @@ interface FileUploadProps {
 export function FileUpload({ variant }: FileUploadProps) {
   const { folderId } = useParams();
   const router = useRouter();
+  const { user } = useUser();
 
   // File Upload Form
   const form = useForm<UploadSchemaInputs>({
@@ -32,33 +36,61 @@ export function FileUpload({ variant }: FileUploadProps) {
     fileData
   ) => {
     const toastId = toast.loading("Uploading File...");
+
     try {
-      const formData = new FormData();
-      formData.append("file", fileData.file);
-      if (folderId) {
-        formData.append("parentId", folderId as string);
-      }
+      // Imagekit Auth
+      const { token, expire, signature, publicKey } = await fetch(
+        "/api/imagekit-auth",
+        {
+          method: "GET",
+        }
+      ).then((res) => res.json());
 
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+      // Check Available Space
+      const spaceResponse = await fetch("/api/space", {
+        method: "GET",
+      }).then((res) => res.json());
 
-      const { success, message } = await response.json();
-
-      if (!success) {
-        toast.error(message, { id: toastId });
-        form.setError("file", { type: "validate", message });
+      if (!spaceResponse.success) {
+        toast.error(spaceResponse.message);
         return;
       }
+
+      if (fileData.file.size > spaceResponse.availableSpace) {
+        toast.error("Not Enough Space");
+        return;
+      }
+
+      // Upload File
+      const uploadResponse = await upload({
+        expire,
+        token,
+        signature,
+        publicKey,
+        file: fileData.file,
+        fileName: fileData.file.name,
+        folder: `${user?.id}/${getFolderName(fileData.file.type)}`,
+        useUniqueFileName: true,
+      });
+
+      if (uploadResponse.message) {
+        toast.error(uploadResponse.message);
+        return;
+      }
+
+      // Save File Details in Database
+      await fetch("/api/save-file-details", {
+        method: "POST",
+        body: JSON.stringify({
+          file: uploadResponse,
+          parentId: folderId || null,
+          fileType: fileData.file.type,
+        }),
+      });
 
       toast.success("File Uploaded Successfully", { id: toastId });
     } catch {
       toast.error("Unkown Error occured while uploading", { id: toastId });
-      form.setError("file", {
-        type: "validate",
-        message: "Unkown Error occured while uploading",
-      });
     } finally {
       form.reset();
       router.refresh();
