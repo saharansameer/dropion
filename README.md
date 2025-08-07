@@ -1,6 +1,6 @@
 # Dropion
 
-**Dropion** is a web-based platform for uploading, storing, and sharing files — with support for folders, nested structure, and shareable links. Upload images, videos, PDFs, or text files, organize them in folders, and access them anytime via direct links. Built as a learning project to explore full-stack development and cloud file handling.
+**Dropion** is a web-based platform for uploading, storing, and sharing files — with support for folders, nested structure, and shareable links. Upload images, videos, PDFs, or text files, organize them in folders, and access them anytime via direct links.
 
 ---
 
