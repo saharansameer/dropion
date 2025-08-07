@@ -12,14 +12,11 @@ import {
   ImageIcon,
   Video,
   FileType,
-  Play,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { getCurrentFullYear } from "@/lib/utils";
 
 export default function HeroSection() {
-
   const floatingFiles = [
     { icon: FileText, delay: 0, x: -20, y: -30, color: "text-blue-500" },
     { icon: ImageIcon, delay: 0.2, x: 20, y: -20, color: "text-green-500" },
@@ -142,9 +139,7 @@ export default function HeroSection() {
             </motion.div>
 
             {/* Animated File Upload Visual */}
-            <motion.div
-              className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl h-48 sm:h-52 md:h-56 mx-auto mb-20 mt-5"
-            >
+            <motion.div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl h-48 sm:h-52 md:h-56 mx-auto mb-20 mt-5">
               <motion.div
                 className="w-full h-full relative"
                 whileHover={{ scale: 1.02 }}
@@ -204,7 +199,7 @@ export default function HeroSection() {
 
             {/* CTA Links */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 w-full max-w-md mx-auto"
+              className="flex w-full max-w-xs mx-auto"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -214,14 +209,6 @@ export default function HeroSection() {
                 className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md shadow-lg hover:shadow-xl transition-all duration-300 group font-medium"
               >
                 Get Started
-              </Link>
-              <Link
-                href="https://sameersaharan.com/demo/dropion"
-                target="_blank"
-                className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md border border-border transition-all duration-300 group font-medium"
-              >
-                Watch Demo
-                <Play className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
               </Link>
             </motion.div>
           </div>
@@ -374,11 +361,11 @@ export default function HeroSection() {
       <footer className="py-2 sm:py-4 border-t border-border bg-background antialiased">
         <div className="container px-4 md:px-6 max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-muted-foreground font-sans">
-              &copy; {getCurrentFullYear()} Dropion. All Rights Reserved.
+            <p className="text-xs text-muted-foreground font-sans">
+              &copy; 2025 Dropion. All Rights Reserved.
             </p>
 
-            <div className="flex items-center space-x-1 text-sm text-muted-foreground font-sans">
+            <div className="flex items-center space-x-1 text-xs text-muted-foreground font-sans">
               <p>built by</p>
               <Link
                 href={"https://sameersaharan.com"}

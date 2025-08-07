@@ -1,21 +1,21 @@
 # Dropion
 
-**Dropion** is a web-based platform for uploading, storing, and sharing files — with support for folders, nested structure, and shareable links. Upload images, videos, PDFs, or text files, organize them in folders, and access them anytime via direct links. Built as a learning project to explore full-stack development and cloud file handling.
+Dropion is file sharing web app that lets you upload, store, and share files. It supports images, videos, PDFs, and text files, organized in folders with nested structures. Files can be previewed, starred, moved to trash, and accessed anytime via direct shareable links. Storage and content delivery are powered by ImageKit.
 
 ---
 
 ## Tech Stack
 
-- **Next.js** – Full-stack React framework for SSR and routing
-- **PostgreSQL** – Relational database for storing file and folder metadata
-- **Drizzle** – Type-safe SQL ORM for PostgreSQL
-- **Neon** – Serverless Postgres hosting 
-- **ImageKit** – File storage, CDN delivery, and optimization
-- **Redis** – Caching and Rate Limiting
-- **Tailwind CSS** – Utility-first CSS framework for UI styling
-- **shadcn/ui** – Prebuilt UI components built on top of Radix and Tailwind
-- **TypeScript** - Typed superset of JavaScript used across the app
-- **Clerk** – User authentication and session management
+- **Next.js**
+- **PostgreSQL**
+- **Drizzle**
+- **Neon**
+- **ImageKit**
+- **Redis**
+- **Tailwind CSS**
+- **shadcn/ui**
+- **TypeScript**
+- **Clerk**
 
 ---
 
@@ -27,7 +27,6 @@
 - **Starred Items:** Mark important files or folders as starred for quick access.
 - **Trash System:** Move files or folders to trash and restore or permanently delete them.
 - **Shareable Links:** Generate direct links to share your uploaded files.
-- **Responsive UI:** Clean and accessible interface built with Tailwind CSS.
 
 ---
 
@@ -47,5 +46,5 @@
 ## Deployment
 
 Deployed at [`dropion.sameersaharan.com`](https://dropion.sameersaharan.com)  
-Built by [Sameer Saharan](https://sameersaharan.com) 
+built by [Sameer Saharan](https://sameersaharan.com) 
 
