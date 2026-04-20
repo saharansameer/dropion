@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { getCurrentFullYear } from "@/lib/utils";
 
 export default function HeroSection() {
   const floatingFiles = [
@@ -132,9 +133,7 @@ export default function HeroSection() {
                 </span>
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed sm:px-20">
-                A simple file sharing app built with Next.js and ImageKit.
-                Upload your images, videos, PDFs, and text files, then manage
-                them with ease.
+                A lightweight web app for storing, organizing, and sharing Images, Videos, PDFs, and more.
               </p>
             </motion.div>
 
@@ -322,10 +321,10 @@ export default function HeroSection() {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Simple features
+              Features
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Everything you need for basic file sharing
+              Everything you need for sharing
             </p>
           </motion.div>
 
@@ -362,7 +361,7 @@ export default function HeroSection() {
         <div className="container px-4 md:px-6 max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-xs text-muted-foreground font-sans">
-              &copy; 2025 Dropion. All Rights Reserved.
+              &copy; 2025-{getCurrentFullYear()} Dropion. All rights reserved.
             </p>
 
             <div className="flex items-center space-x-1 text-xs text-muted-foreground font-sans">

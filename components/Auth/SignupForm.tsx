@@ -88,7 +88,7 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter a name" />
+                <Input {...field} placeholder="Enter username" />
               </FormControl>
               <FormMessage />
             </FormItem>
